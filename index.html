@@ -60,18 +60,32 @@
 <script>
   /*Escucha las teclas que presionamos cuando
   estamos en la pantalla*/
-  window.addEventListener('keydown', function(e){
+  function playSound(e){
     //me almacena la etiqueta dependiendo si existe segun la tecla que precione 
     const audio = document.querySelector(`audio[data-key='${e.keyCode}']`);
+    //Seleccionamos las eqiquetas que tienen la clase = key
+    const key = document.querySelector(`.key[data-key='${e.keyCode}']`);
 
     if(!audio){
       return
     }else{
-      audio.currentTime = 0;
-      audio.play();
+      audio.currentTime = 0;// reinicia el sonido
+      audio.play();//ejecuta el audio
+      //le agregamso la clase playing
+      key.classList.add('playing');
+
+//una vez que presionas la tecla la clase playin se activa, tengo que ver como quitarle 
+//la clase playing despues de que dejo de precionar la tecla :)
+//y esto fue lo que se me ocurrio, despues de 1 minuto la clase playing se quita 
+      setTimeout(function(){
+        console.log('activo')
+        key.classList.remove('playing')
+      }, 100)
     }
-    console.log(audio);
-  })
+  }
+
+  window.addEventListener('keydown', playSound);
+
 
 </script>
 
