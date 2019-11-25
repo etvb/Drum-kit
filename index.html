@@ -65,7 +65,6 @@
     const audio = document.querySelector(`audio[data-key='${e.keyCode}']`);
     //Seleccionamos las eqiquetas que tienen la clase = key
     const key = document.querySelector(`.key[data-key='${e.keyCode}']`);
-
     if(!audio){
       return
     }else{
@@ -73,17 +72,32 @@
       audio.play();//ejecuta el audio
       //le agregamso la clase playing
       key.classList.add('playing');
-
 //una vez que presionas la tecla la clase playin se activa, tengo que ver como quitarle 
 //la clase playing despues de que dejo de precionar la tecla :)
 //y esto fue lo que se me ocurrio, despues de 1 minuto la clase playing se quita 
-      setTimeout(function(){
-        console.log('activo')
-        key.classList.remove('playing')
-      }, 100)
+  //     setTimeout(function(){
+  //       console.log('activo')
+  //       key.classList.remove('playing')
+  //     }, 100)
     }
-  }
+   }
+  //Pero lo ideal seria que cuando termine la trasision la clase playing se quite veremos 
+  //como hacer esto.
 
+  function removeTransition(e){
+    if (e.propertyName !== 'transform'){
+      return;
+    }else{
+      this.classList.remove('playing');
+    }
+
+  }
+//seleccionamos todos los elementos que tengan la clase key
+  const keys = document.querySelectorAll('.key');
+//a cada elemento con la clase key cuadno ocurra un trasitionend llame la la funcion removeTransition
+  keys.forEach((key) => {
+    key.addEventListener('transitionend', removeTransition)
+  })
   window.addEventListener('keydown', playSound);
 
 
